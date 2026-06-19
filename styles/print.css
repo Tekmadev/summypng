@@ -1,0 +1,49 @@
+/*
+ * SummyPNG — print styles
+ *
+ * Loaded alongside the global stylesheet. The public site is a dark, image-first
+ * experience that should degrade gracefully when printed: drop the cinematic
+ * chrome, force legible ink-on-paper, and never waste toner on full-bleed black.
+ *
+ * Scope this with `@media print` so it has zero effect on screen rendering.
+ */
+
+@media print {
+  /* Reset the cinematic dark canvas to printable ink-on-paper. */
+  :root {
+    --background: #ffffff;
+    --foreground: #111111;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #111111 !important;
+  }
+
+  /* Hide interactive chrome that has no meaning on paper. */
+  nav,
+  header[data-site-header],
+  footer[data-site-footer],
+  [data-print-hidden],
+  .cookie-consent,
+  button,
+  [role="dialog"] {
+    display: none !important;
+  }
+
+  /* Keep imagery from being clipped across page breaks. */
+  img,
+  figure {
+    max-width: 100% !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Expose link destinations since they aren't clickable on paper. */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    color: #555555;
+  }
+}
