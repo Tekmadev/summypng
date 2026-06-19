@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
         pathname: "/storage/v1/object/public/**",
       },
     ],
-    // Photography portfolio — allow higher-fidelity variants than the [75] default.
+    // Photography portfolio - allow higher-fidelity variants than the [75] default.
     qualities: [75, 90, 100],
     // Serve modern formats first.
     formats: ["image/avif", "image/webp"],

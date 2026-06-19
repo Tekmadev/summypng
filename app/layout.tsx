@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 
 import { JsonLd } from "@/components/JsonLd";
 import {
@@ -69,7 +70,7 @@ export const metadata: Metadata = {
   formatDetection: { telephone: false, email: false, address: false },
 };
 
-/** Dark, cinematic brand — declare the colour scheme so the UA chrome matches. */
+/** Dark, cinematic brand - declare the colour scheme so the UA chrome matches. */
 export const viewport: Viewport = {
   themeColor: "#0a0a0a",
   colorScheme: "dark",
@@ -88,6 +89,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <JsonLd data={buildSiteGraph()} />
         {children}
+        <Analytics />
       </body>
     </html>
   );

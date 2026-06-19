@@ -11,7 +11,7 @@ function changeFrequencyFor(
   return "yearly"; // about / contact
 }
 
-/** Relative importance, 0–1. Home leads, galleries next, info pages last. */
+/** Relative importance, 0-1. Home leads, galleries next, info pages last. */
 function priorityFor(route: SiteRoute): number {
   if (route === "/") return 1.0;
   if (route.startsWith("/gallery/")) return 0.8;
@@ -19,7 +19,7 @@ function priorityFor(route: SiteRoute): number {
 }
 
 /**
- * sitemap.xml — public routes only, sourced from config. The hidden admin and
+ * sitemap.xml - public routes only, sourced from config. The hidden admin and
  * client-portal paths are deliberately excluded (they are not in PUBLIC_ROUTES).
  */
 export default function sitemap(): MetadataRoute.Sitemap {

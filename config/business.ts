@@ -1,10 +1,10 @@
 /**
- * SummyPNG — single source of truth.
+ * SummyPNG - single source of truth.
  *
  * Every business-facing fact on the site (identity, contact, social links,
  * services, SEO copy, brand voice, hidden routes) lives here and ONLY here.
  * Pages, components, metadata, JSON-LD, robots.ts and sitemap.ts all import
- * from this module — nothing business-related is hardcoded anywhere else.
+ * from this module - nothing business-related is hardcoded anywhere else.
  *
  * Rules of the road:
  *   • Pure data + pure helper functions. No React, no side effects.
@@ -46,7 +46,7 @@ export type SiteRoute =
 export type GalleryRoute = Extract<SiteRoute, `/gallery/${string}`>;
 
 /**
- * Per-page SEO metadata. `title` is intentionally full and self-contained —
+ * Per-page SEO metadata. `title` is intentionally full and self-contained -
  * it is applied via Next.js `title.absolute` so the site-wide title template
  * never double-brands an already-complete title.
  */
@@ -62,7 +62,7 @@ export interface PageMeta {
   readonly keywords: readonly string[];
 }
 
-/** One of Summy's four service categories — each maps 1:1 to a gallery. */
+/** One of Summy's four service categories - each maps 1:1 to a gallery. */
 export interface ServiceCategory {
   /** Stable identifier, matches the DB `categories.slug` and the URL segment. */
   readonly key: PhotoCategory;
@@ -93,12 +93,12 @@ export interface GeoPoint {
   readonly longitude: number;
 }
 
-/** Pricing posture. The business is quote-based — no public price points. */
+/** Pricing posture. The business is quote-based - no public price points. */
 export interface PricingConfig {
   readonly model: "quote";
   /** ISO 4217 currency used in `Offer` nodes. */
   readonly currency: "CAD";
-  /** schema.org `priceRange` — symbol only (no prose) per Google guidance. */
+  /** schema.org `priceRange` - symbol only (no prose) per Google guidance. */
   readonly priceRange: "$$";
   /** Plain-language pricing statement shown to humans and answer engines. */
   readonly message: string;
@@ -116,7 +116,7 @@ export const identity = {
   businessName: "Summy Singh Photography",
   /**
    * Registered legal entity. NOTE: confirm incorporation before relying on the
-   * "Inc" form in schema `legalName` or a "© … Inc" notice — until then the
+   * "Inc" form in schema `legalName` or a "© … Inc" notice - until then the
    * safe, non-Inc {@link identity.businessName} is used for copyright.
    */
   legalName: "Summy Singh Photography Inc",
@@ -128,7 +128,7 @@ export const identity = {
 
 /** How to reach the business. */
 export const contact = {
-  /** Public email — also the recipient for inquiry-form notifications. */
+  /** Public email - also the recipient for inquiry-form notifications. */
   email: "summy.png@gmail.com",
   /** No public phone number by choice. */
   phone: null,
@@ -190,7 +190,7 @@ export const services: readonly ServiceCategory[] = [
     label: "People",
     route: "/gallery/people",
     serviceType: "Cinematic portrait photography",
-    tagline: "Portraits in low light — faces given room to hold their own.",
+    tagline: "Portraits in low light - faces given room to hold their own.",
     description: "Moody, cinematic editorial portrait photography in Montreal.",
     keywords: [
       "Montreal portrait photographer",
@@ -235,7 +235,7 @@ export const services: readonly ServiceCategory[] = [
     label: "Real Estate",
     route: "/gallery/real-estate",
     serviceType: "Architectural and interior photography",
-    tagline: "Spaces framed with intent — architecture read as composition, not listing.",
+    tagline: "Spaces framed with intent. Architecture read as composition, not a listing.",
     description:
       "Cinematic real estate and architectural photography for Montreal properties.",
     keywords: [
@@ -267,7 +267,7 @@ export const brand = {
   hero: {
     headline: "Composed in the dark.",
     subhead:
-      "Cinematic, low-light photography out of Montreal — people, businesses, hospitality, real estate.",
+      "Cinematic, low-light photography out of Montreal: people, businesses, hospitality, real estate.",
   },
   /**
    * One-paragraph voice guide. Every future piece of copy should pass through
@@ -275,16 +275,16 @@ export const brand = {
    * thing on the page.
    */
   voice:
-    "Spare, declarative, and quietly confident — the voice of a high-end photography magazine, not a service vendor. Sentences run short and load-bearing; nouns do the work, adjectives are rationed. State facts about light, place, and subject and let the photographs supply the feeling. Avoid sentiment and the entire dictionary of photography cliché.",
+    "Spare, declarative, and quietly confident: the voice of a high-end photography magazine, not a service vendor. Sentences run short and load-bearing; nouns do the work, adjectives are rationed. State facts about light, place, and subject and let the photographs supply the feeling. Avoid sentiment and the entire dictionary of photography cliché.",
   /** Default About bio (Summy can edit later in admin / `about_content`). */
   aboutSeed:
-    "Summy Singh is a Montreal photographer working in low light and dark tone across portraits, commercial, hospitality and real estate. The approach is editorial and deliberate: fewer frames, more weight, every image built to sit on a magazine spread. Work is taken on by inquiry — reach out and the price is discussed.",
+    "Summy Singh is a Montreal photographer working in low light and dark tone across portraits, commercial, hospitality and real estate. The approach is editorial and deliberate: fewer frames, more weight, every image built to sit on a magazine spread. Work is taken on by inquiry. Reach out and the price is discussed.",
   /** Intro line for the multi-step booking form. */
   contactIntro:
-    "Tell us what you're shooting. Three short steps — the subject, the project, your details — and the rest is a conversation. Pricing is set per project; reach out and we'll discuss it.",
+    "Tell us what you're shooting. Three short steps (the subject, the project, your details), and the rest is a conversation. Pricing is set per project; reach out and we'll discuss it.",
   /** Success state shown after an inquiry is submitted. */
   confirmationMessage:
-    "Received. Your inquiry is in the studio — Summy reads every one personally and will reply by email, usually within a couple of days, with next steps and pricing.",
+    "Received. Your inquiry is in the studio. Summy reads every one personally and will reply by email, usually within a couple of days, with next steps and pricing.",
 } as const;
 
 /* -------------------------------------------------------------------------- */
@@ -294,9 +294,9 @@ export const brand = {
 /** Site-wide SEO configuration. Per-page metadata lives in {@link pages}. */
 export const seo = {
   /** Used ONLY for future pages that pass a short label (galleries use absolute titles). */
-  titleTemplate: "%s · Summy Singh — Montreal Photographer",
+  titleTemplate: "%s · Summy Singh, Montreal Photographer",
   /** Fallback `<title>` when a route provides none. */
-  defaultTitle: "Summy Singh — Montreal Cinematic Photographer",
+  defaultTitle: "Summy Singh, Montreal Cinematic Photographer",
   /** Default meta description (≤ 160 chars). */
   siteDescription:
     "Summy Singh is a Montreal photographer making moody, cinematic, dark-toned editorial work for people, business, hospitality and real estate.",
@@ -328,7 +328,7 @@ export const seo = {
   },
   /**
    * AI crawlers explicitly welcomed on public routes (GEO). The hidden admin
-   * and client-portal paths stay disallowed for all agents — see {@link routes}.
+   * and client-portal paths stay disallowed for all agents - see {@link routes}.
    */
   aiCrawlers: ["GPTBot", "ClaudeBot", "PerplexityBot", "Google-Extended"],
 } as const;
@@ -341,9 +341,9 @@ export const seo = {
 export const pages: readonly PageMeta[] = [
   {
     route: "/",
-    title: "Summy Singh — Montreal Cinematic Photographer",
+    title: "Summy Singh, Montreal Cinematic Photographer",
     description:
-      "Montreal cinematic photographer Summy Singh — moody, dark-toned editorial work across portraits, commercial, hospitality and real estate.",
+      "Montreal cinematic photographer Summy Singh. Moody, dark-toned editorial work across portraits, commercial, hospitality and real estate.",
     h1: "Cinematic photography from Montreal",
     keywords: [
       "Montreal photographer",
@@ -355,7 +355,7 @@ export const pages: readonly PageMeta[] = [
   },
   {
     route: "/gallery/people",
-    title: "People — Cinematic Portrait Photography in Montreal",
+    title: "People: Cinematic Portrait Photography in Montreal",
     description:
       "Moody, cinematic portrait photography in Montreal by Summy Singh. Editorial people sessions with a dark, filmic tone. Quote-based.",
     h1: "People",
@@ -363,7 +363,7 @@ export const pages: readonly PageMeta[] = [
   },
   {
     route: "/gallery/businesses",
-    title: "Businesses — Commercial & Brand Photography in Montreal",
+    title: "Businesses: Commercial & Brand Photography in Montreal",
     description:
       "Cinematic commercial and brand photography in Montreal by Summy Singh. Dark-toned, editorial imagery for businesses. Quote-based.",
     h1: "Businesses",
@@ -371,15 +371,15 @@ export const pages: readonly PageMeta[] = [
   },
   {
     route: "/gallery/hospitality",
-    title: "Hospitality — Restaurant & Hotel Photography, Montreal",
+    title: "Hospitality: Restaurant & Hotel Photography, Montreal",
     description:
-      "Cinematic hospitality photography in Montreal by Summy Singh — restaurants, bars, hotels and cafés in a moody, atmospheric tone.",
+      "Cinematic hospitality photography in Montreal by Summy Singh. Restaurants, bars, hotels and cafés in a moody, atmospheric tone.",
     h1: "Hospitality",
     keywords: services[2]!.keywords,
   },
   {
     route: "/gallery/real-estate",
-    title: "Real Estate — Architectural Photography in Montreal",
+    title: "Real Estate: Architectural Photography in Montreal",
     description:
       "Cinematic real estate and architectural photography in Montreal by Summy Singh. Moody, editorial interiors that sell a space.",
     h1: "Real Estate",
@@ -387,7 +387,7 @@ export const pages: readonly PageMeta[] = [
   },
   {
     route: "/about",
-    title: "About Summy Singh — Montreal Cinematic Photographer",
+    title: "About Summy Singh, Montreal Cinematic Photographer",
     description:
       "Meet Summy Singh, the Montreal photographer behind moody, cinematic, dark-toned editorial work across portraits, business and venues.",
     h1: "About Summy Singh",
@@ -400,9 +400,9 @@ export const pages: readonly PageMeta[] = [
   },
   {
     route: "/contact",
-    title: "Contact & Booking — Summy Singh, Montreal Photographer",
+    title: "Contact & Booking: Summy Singh, Montreal Photographer",
     description:
-      "Start a project with Montreal photographer Summy Singh — people, business, hospitality or real estate. Pricing is quote-based.",
+      "Start a project with Montreal photographer Summy Singh across people, business, hospitality or real estate. Pricing is quote-based.",
     h1: "Let's work together",
     keywords: [
       "book Montreal photographer",

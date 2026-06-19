@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /*
- * Dark-first baseline. The brand is unconditionally dark and cinematic — there
+ * Dark-first baseline. The brand is unconditionally dark and cinematic - there
  * is no light theme to toggle. The full palette, display typeface, and motion
  * system are layered on in Phase 3 from the persisted design system
  * (design-system/summypng/). These tokens are the minimal foundation.

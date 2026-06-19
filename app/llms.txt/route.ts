@@ -4,7 +4,7 @@ import { buildLlmsTxt } from "@/lib/seo";
 export const dynamic = "force-static";
 
 /**
- * Serve `/llms.txt` — a compact, citable summary of the business for LLMs and
+ * Serve `/llms.txt` - a compact, citable summary of the business for LLMs and
  * answer engines. Built entirely from {@link config/business}.
  */
 export function GET(): Response {

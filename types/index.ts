@@ -1,5 +1,5 @@
 /**
- * Shared domain types for SummyPNG — Summy Singh Photography.
+ * Shared domain types for SummyPNG - Summy Singh Photography.
  * Field names mirror the snake_case Postgres columns 1:1.
  * Strict TypeScript. Named exports only. No default export.
  * @module types
@@ -103,7 +103,7 @@ export interface Project {
   readonly created_at: string;
 }
 
-/* Insert helpers — required NOT NULL columns stay required; nullable
+/* Insert helpers - required NOT NULL columns stay required; nullable
    columns become optional so the public form need not pass null for
    every analytics field. DB defaults id/status/created_at. */
 export type ContactQueryInsert =

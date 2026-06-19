@@ -6,7 +6,7 @@ import { getRouteMetadata } from "@/lib/seo";
 export const metadata: Metadata = getRouteMetadata("/");
 
 /**
- * Home — Phase 1 placeholder. Server-rendered, on-brand, and wired to the
+ * Home - Phase 1 placeholder. Server-rendered, on-brand, and wired to the
  * single source of truth. The signature GSAP horizontal-scroll hero replaces
  * this in Phase 3; the markup here is intentionally crawler-friendly.
  */

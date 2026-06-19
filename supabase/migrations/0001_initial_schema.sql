@@ -66,7 +66,7 @@ create index if not exists categories_display_order_idx
   on public.categories (display_order);
 
 -- =====================================================================
--- clients & projects (future client portal — created first for FKs)
+-- clients & projects (future client portal - created first for FKs)
 -- =====================================================================
 create table if not exists public.clients (
   id           uuid primary key default gen_random_uuid(),
@@ -200,7 +200,7 @@ insert into public.categories (slug, label, display_order) values
 on conflict (slug) do nothing;
 
 -- =====================================================================
--- Row Level Security — admin = public.is_admin(), NOT bare authenticated
+-- Row Level Security - admin = public.is_admin(), NOT bare authenticated
 -- =====================================================================
 
 -- ---- categories ----

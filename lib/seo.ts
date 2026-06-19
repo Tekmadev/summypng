@@ -1,5 +1,5 @@
 /**
- * SEO logic — turns the {@link config/business} single source of truth into
+ * SEO logic - turns the {@link config/business} single source of truth into
  * Next.js `Metadata` and schema.org JSON-LD. Pure functions only; no React.
  *
  * Two consumers:
@@ -53,7 +53,7 @@ const ID = {
  *
  * The page title is applied via `title.absolute` so the sitewide title
  * template never double-brands an already-complete, keyword-tuned title.
- * Open Graph images are intentionally omitted here — Next injects them
+ * Open Graph images are intentionally omitted here - Next injects them
  * automatically once per-route `opengraph-image` files exist.
  *
  * @param route A public route.
@@ -236,7 +236,7 @@ function llmsEntry(page: PageMeta): string {
 }
 
 /**
- * Build the plain-text `/llms.txt` body from config — a compact, citable
+ * Build the plain-text `/llms.txt` body from config - a compact, citable
  * summary of the business for LLMs and answer engines. This is context, not a
  * ranking signal; it simply gives AI agents a clean read of the core facts.
  *
@@ -244,13 +244,13 @@ function llmsEntry(page: PageMeta): string {
  */
 export function buildLlmsTxt(): string {
   const lines: string[] = [
-    `# ${identity.name} — Montreal Cinematic Photographer`,
+    `# ${identity.name} - Montreal Cinematic Photographer`,
     "",
     `> ${identity.name} is a Montreal-based photographer creating moody, cinematic, ` +
       `dark-toned editorial imagery across People (portraits), Businesses (commercial/brand), ` +
       `Hospitality (restaurants, hotels, bars) and Real Estate (architectural/interior). ` +
       `Serves ${location.areaServed.join(", ")}. Bilingual (English/French). ` +
-      `Pricing is quote-based — ${pricing.message} Business: ${identity.businessName}.`,
+      `Pricing is quote-based - ${pricing.message} Business: ${identity.businessName}.`,
     "",
     "## Core pages",
     ...pages.map(llmsEntry),

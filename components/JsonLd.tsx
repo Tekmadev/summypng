@@ -1,7 +1,7 @@
 /**
  * Renders a schema.org JSON-LD document as a `<script type="application/ld+json">`.
  *
- * Presentational only — the structured data itself is built by pure functions
+ * Presentational only - the structured data itself is built by pure functions
  * in {@link lib/seo}. Server-rendered so crawlers and answer engines read it
  * without executing JavaScript.
  *

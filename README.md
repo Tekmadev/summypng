@@ -1,6 +1,6 @@
 # SummyPNG
 
-Photographer portfolio + admin platform for **Summy Singh** — a Montreal-based
+Photographer portfolio + admin platform for **Summy Singh** - a Montreal-based
 photographer shooting moody, cinematic, dark-toned work (people, businesses,
 hospitality, real estate). The public site is premium, simple, and bold; the
 photos are the hero. A hidden admin lets Summy upload one photo and have the
@@ -14,7 +14,7 @@ system handle compression, EXIF extraction, and storage.
 
 ## Single source of truth
 
-All business details — name, contact, social links, services, SEO copy — live in
+All business details - name, contact, social links, services, SEO copy - live in
 [`config/business.ts`](config/business.ts). Nothing business-related is hardcoded
 anywhere else; every page and component imports from this config.
 
@@ -26,7 +26,7 @@ components/   → presentational components only
 lib/         → pure logic: supabase client, parsers, upload, exporter
 hooks/       → stateful logic
 types/       → shared TypeScript types (barrel: types/index.ts)
-config/      → business.ts — single source of truth
+config/      → business.ts - single source of truth
 styles/      → global + print styles
 public/      → static assets
 design-system/ → persisted UI/UX Pro Max design system (master + per-page overrides)
@@ -55,11 +55,11 @@ npm run dev                  # http://localhost:3000
 
 ## Build phases
 
-1. **Foundation** — project setup, `config/business.ts`, Supabase init, Vercel pipeline.
-2. **Core backend** — upload pipeline (Sharp + EXIF), contact/booking backend, UTM tracking.
-3. **Public frontend** — home (GSAP horizontal scroll), galleries (lightbox zoom), about, multi-step contact.
-4. **Admin** — login + dashboard, photo CRUD, inquiry inbox, about editor (at the hidden `/darkroom` route).
-5. **Polish** — performance, SEO/AEO/GEO, cookie consent, responsive QA.
-6. **Client portal** *(low priority)* — delivered galleries with signed download URLs.
+1. **Foundation** - project setup, `config/business.ts`, Supabase init, Vercel pipeline.
+2. **Core backend** - upload pipeline (Sharp + EXIF), contact/booking backend, UTM tracking.
+3. **Public frontend** - home (GSAP horizontal scroll), galleries (lightbox zoom), about, multi-step contact.
+4. **Admin** - login + dashboard, photo CRUD, inquiry inbox, about editor (at the hidden `/darkroom` route).
+5. **Polish** - performance, SEO/AEO/GEO, cookie consent, responsive QA.
+6. **Client portal** *(low priority)* - delivered galleries with signed download URLs.
 
 See [`SUMMYPNG_CLAUDE_CODE_BRIEF.md`](SUMMYPNG_CLAUDE_CODE_BRIEF.md) for the full brief.
