@@ -11,6 +11,16 @@ const nextConfig: NextConfig = {
         hostname: "*.supabase.co",
         pathname: "/storage/v1/object/public/**",
       },
+      // DEV ONLY: grayscale placeholder photos for the galleries before real
+      // images land. Remove once Supabase image data is wired in.
+      {
+        protocol: "https",
+        hostname: "picsum.photos",
+      },
+      {
+        protocol: "https",
+        hostname: "fastly.picsum.photos",
+      },
     ],
     // Photography portfolio - allow higher-fidelity variants than the [75] default.
     qualities: [75, 90, 100],

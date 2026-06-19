@@ -1,25 +1,104 @@
 @import "tailwindcss";
 
 /*
- * Dark-first baseline. The brand is unconditionally dark and cinematic - there
- * is no light theme to toggle. The full palette, display typeface, and motion
- * system are layered on in Phase 3 from the persisted design system
- * (design-system/summypng/). These tokens are the minimal foundation.
+ * SummyPNG design system: dark, cinematic, editorial.
+ *
+ * The canvas is near-black (never pure #000, which smears on OLED). Type is the
+ * only loud non-photographic element: a characterful display serif (Fraunces)
+ * against a clean grotesque body (Geist). One restrained warm accent. Motion
+ * uses a single expo-out easing so everything feels orchestrated, not scattered.
  */
+
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  /* Surfaces */
+  --background: #0a0a0b;
+  --surface: #131316;
+  --foreground: #f2f0eb;
+  --muted: #8a8a86;
+  --border: rgba(255, 255, 255, 0.08);
+
+  /* Single warm accent, used sparingly (focus rings, active states). */
+  --accent: #b79a6b;
+  --accent-foreground: #0a0a0b;
+
+  /* Orchestrated motion. */
+  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-fraunces);
+
+  --ease-cinematic: var(--ease-cinematic);
+}
+
+html {
+  /* Smooth scroll is opt-in in Next 16; the GSAP hero pins, so keep native
+     smooth scroll off to avoid fighting ScrollTrigger. */
+  background: var(--background);
+  color: var(--foreground);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
+  /* Slightly tighter, editorial body rhythm. */
+  font-feature-settings: "ss01", "cv01";
+  text-rendering: optimizeLegibility;
+}
+
+/* Selection echoes the warm accent. */
+::selection {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+/* Visible, on-brand keyboard focus everywhere. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Display utility: the editorial serif, tightened for large sizes. */
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+  letter-spacing: -0.02em;
+}
+
+/* Lightbox open: a soft zoom from the clicked thumbnail's scale. */
+@keyframes lightbox-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-lightbox-in {
+  animation: lightbox-in 500ms var(--ease-cinematic) both;
+}
+
+/* Honour reduced-motion globally: kill long transitions and animations. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -1,44 +1,56 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
-import { brand, contact, getPageMeta, identity, location, services } from "@/config/business";
+import { CategoryPreview } from "@/components/home/CategoryPreview";
+import { PinnedGallery } from "@/components/home/PinnedGallery";
+import { brand, getPageMeta, identity, location, services } from "@/config/business";
 import { getRouteMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = getRouteMetadata("/");
 
 /**
- * Home - Phase 1 placeholder. Server-rendered, on-brand, and wired to the
- * single source of truth. The signature GSAP horizontal-scroll hero replaces
- * this in Phase 3; the markup here is intentionally crawler-friendly.
+ * Home. Interim cinematic hero wired to the single source of truth. The
+ * signature GSAP horizontal-scroll section replaces the placeholder block below
+ * in the next pass; the heading and copy here are server-rendered for crawlers.
  */
 export default function HomePage() {
   const { h1 } = getPageMeta("/");
 
   return (
-    <main className="flex flex-1 flex-col items-center justify-center px-6 py-24 text-center">
-      <p className="text-xs font-medium uppercase tracking-[0.3em] text-foreground/50">
-        {identity.name} · {location.city}
-      </p>
+    <main className="flex flex-1 flex-col">
+      <section className="relative flex min-h-screen flex-col justify-center px-5 pt-24 pb-20 sm:px-8">
+        <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted">
+          {brand.tagline}
+        </p>
 
-      <h1 className="mt-6 max-w-3xl text-balance text-4xl font-semibold tracking-tight sm:text-6xl">
-        {h1}
-      </h1>
+        <h1 className="mt-8 max-w-[14ch] font-display text-[clamp(2.75rem,9vw,8.5rem)] leading-[0.92] tracking-tight">
+          {h1}
+        </h1>
 
-      <p className="mt-6 max-w-xl text-balance text-base leading-relaxed text-foreground/70 sm:text-lg">
-        {brand.hero.subhead}
-      </p>
+        <p className="mt-10 max-w-xl text-base leading-relaxed text-foreground/70 sm:text-lg">
+          {brand.hero.subhead}
+        </p>
 
-      <ul className="mt-12 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm uppercase tracking-widest text-foreground/50">
-        {services.map((service) => (
-          <li key={service.key}>{service.label}</li>
-        ))}
-      </ul>
+        <nav className="mt-12 flex flex-wrap gap-x-8 gap-y-3" aria-label="Galleries">
+          {services.map((service) => (
+            <Link
+              key={service.key}
+              href={service.route}
+              className="text-sm uppercase tracking-widest text-muted transition-colors duration-300 ease-cinematic hover:text-foreground"
+            >
+              {service.label}
+            </Link>
+          ))}
+        </nav>
 
-      <a
-        href={`mailto:${contact.email}`}
-        className="mt-12 rounded-full border border-foreground/20 px-6 py-3 text-sm font-medium tracking-wide transition-colors hover:bg-foreground hover:text-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
-      >
-        Reach out
-      </a>
+        <p className="mt-auto pt-16 font-mono text-[0.7rem] uppercase tracking-[0.3em] text-muted">
+          {identity.name} · {location.city}, {location.regionName}
+        </p>
+      </section>
+
+      <PinnedGallery />
+
+      <CategoryPreview />
     </main>
   );
 }
