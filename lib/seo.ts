@@ -12,6 +12,7 @@
 import type { Metadata } from "next";
 
 import {
+  LEGAL_ROUTES,
   SITE_URL,
   absoluteUrl,
   contact,
@@ -29,6 +30,9 @@ import {
   type ServiceCategory,
   type SiteRoute,
 } from "@/config/business";
+
+/** Legal/utility routes do not belong in the LLM "core pages" summary. */
+const LEGAL_ROUTE_SET: ReadonlySet<string> = new Set(LEGAL_ROUTES);
 
 /** A loosely-typed JSON-LD node. */
 type JsonLdNode = Record<string, unknown>;
@@ -253,7 +257,7 @@ export function buildLlmsTxt(): string {
       `Pricing is quote-based - ${pricing.message} Business: ${identity.businessName}.`,
     "",
     "## Core pages",
-    ...pages.map(llmsEntry),
+    ...pages.filter((page) => !LEGAL_ROUTE_SET.has(page.route)).map(llmsEntry),
     "",
     "## Contact",
     `- Email: ${contact.email}`,

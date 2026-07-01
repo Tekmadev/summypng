@@ -40,7 +40,12 @@ export type SiteRoute =
   | "/gallery/hospitality"
   | "/gallery/real-estate"
   | "/about"
-  | "/contact";
+  | "/contact"
+  | "/privacy"
+  | "/terms";
+
+/** Legal/utility routes, narrowed from {@link SiteRoute}. */
+export type LegalRoute = Extract<SiteRoute, "/privacy" | "/terms">;
 
 /** A gallery route, narrowed from {@link SiteRoute}. */
 export type GalleryRoute = Extract<SiteRoute, `/gallery/${string}`>;
@@ -411,6 +416,41 @@ export const pages: readonly PageMeta[] = [
       "photography quote Montreal",
     ],
   },
+  {
+    route: "/privacy",
+    title: "Privacy Policy: Summy Singh Photography, Montreal",
+    description:
+      "How Summy Singh Photography handles your personal information under Quebec Law 25 and Canada's PIPEDA, and the privacy rights you have.",
+    h1: "Privacy Policy",
+    keywords: [
+      "privacy policy",
+      "Law 25",
+      "PIPEDA",
+      "Summy Singh Photography privacy",
+    ],
+  },
+  {
+    route: "/terms",
+    title: "Terms of Use: Summy Singh Photography, Montreal",
+    description:
+      "The terms that govern your use of summysingh.com: copyright, acceptable use, disclaimers, and governing law in Quebec, Canada.",
+    h1: "Terms of Use",
+    keywords: [
+      "terms of use",
+      "website terms",
+      "image copyright",
+      "Summy Singh Photography terms",
+    ],
+  },
+];
+
+/** Legal/utility routes, in footer display order. Excluded from primary nav. */
+export const LEGAL_ROUTES: readonly LegalRoute[] = ["/privacy", "/terms"];
+
+/** Footer legal links: label + route, sourced from page metadata. */
+export const legalNav: readonly { readonly label: string; readonly href: LegalRoute }[] = [
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
 ];
 
 /* -------------------------------------------------------------------------- */

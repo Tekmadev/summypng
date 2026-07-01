@@ -1,28 +1,59 @@
 @import "tailwindcss";
 
 /*
- * SummyPNG design system: dark, cinematic, editorial.
+ * SummyPNG design system: an elegant, editorial photography canvas with two
+ * skins.
  *
- * The canvas is near-black (never pure #000, which smears on OLED). Type is the
- * only loud non-photographic element: a characterful display serif (Fraunces)
- * against a clean grotesque body (Geist). One restrained warm accent. Motion
- * uses a single expo-out easing so everything feels orchestrated, not scattered.
+ *   Light (default): a warm gallery white, like a matte print on a soft-lit
+ *   wall. Deep warm ink for type, a single restrained gold accent.
+ *
+ *   Dark: the original cinematic skin. Near-black (never pure #000, which
+ *   smears on OLED), bone-white type, the same warm gold.
+ *
+ * Type is the only loud non-photographic element: a characterful display serif
+ * (Fraunces) over a clean grotesque body (Geist). Motion uses a single expo-out
+ * easing so everything feels orchestrated, not scattered.
+ *
+ * The theme is a `.dark` class on <html>, toggled by the header control and set
+ * before paint by the inline script in the root layout (no flash). Default is
+ * light: a visitor with no stored preference always gets the warm white skin.
  */
 
+/* Enable class-based dark mode (`dark:` utilities) instead of the OS-pref
+   default, so the toggle (not just prefers-color-scheme) drives the theme. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  /* Surfaces */
+  /* Surfaces - warm gallery white. */
+  --background: #f7f5f0;
+  --surface: #ffffff;
+  --foreground: #1a1815;
+  --muted: #6b6760;
+  --border: rgba(24, 22, 18, 0.12);
+
+  /* Single warm accent, deepened so it stays legible as text on white. */
+  --accent: #8a6a36;
+  --accent-foreground: #fbfaf7;
+
+  /* Orchestrated motion. */
+  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Native controls (date picker, scrollbars, form fields) follow the theme. */
+  color-scheme: light;
+}
+
+.dark {
+  /* Surfaces - cinematic near-black. */
   --background: #0a0a0b;
   --surface: #131316;
   --foreground: #f2f0eb;
   --muted: #8a8a86;
   --border: rgba(255, 255, 255, 0.08);
 
-  /* Single warm accent, used sparingly (focus rings, active states). */
   --accent: #b79a6b;
   --accent-foreground: #0a0a0b;
 
-  /* Orchestrated motion. */
-  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -42,10 +73,14 @@
 }
 
 html {
-  /* Smooth scroll is opt-in in Next 16; the GSAP hero pins, so keep native
+  /* Smooth scroll is opt-in in Next 16; the GSAP gallery scrubs, so keep native
      smooth scroll off to avoid fighting ScrollTrigger. */
   background: var(--background);
   color: var(--foreground);
+  /* Reserve the scrollbar gutter so locking body scroll for the menu overlay
+     never shifts the page (or the fixed header) horizontally. No-op under
+     macOS overlay scrollbars; cancels the jump under classic scrollbars. */
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -73,6 +108,42 @@ body {
 .font-display {
   font-family: var(--font-display), Georgia, serif;
   letter-spacing: -0.02em;
+}
+
+/*
+ * Full-screen menu scrim. Translucent so the work behind reads as a faint wash,
+ * opaque enough to keep the menu type legible, with a heavy blur. Derived from
+ * `--background`, so it warms to gallery white in light mode and cools to
+ * near-black in dark mode automatically. The whole overlay fades via Framer
+ * Motion, which ramps this blur + tint in on open and out on close. The
+ * `-webkit-` prefix is required for Safari. For the backdrop to actually sample
+ * the page, no ancestor of the overlay may own a backdrop-filter/transform/
+ * filter (see SiteHeader).
+ */
+.site-menu-scrim {
+  background-color: color-mix(in srgb, var(--background) 88%, transparent);
+  -webkit-backdrop-filter: blur(30px) saturate(125%);
+  backdrop-filter: blur(30px) saturate(125%);
+}
+
+/* No backdrop-filter support: lean on a near-opaque scrim for legibility. */
+@supports not (
+  (-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))
+) {
+  .site-menu-scrim {
+    background-color: color-mix(in srgb, var(--background) 97%, transparent);
+  }
+}
+
+/*
+ * Lightbox scrim. The image viewer is always dark in both themes so photographs
+ * pop against it (a white viewer would wash them out). Written explicitly so it
+ * never inverts with the page theme; its chrome uses fixed light-on-dark colors.
+ */
+.lightbox-scrim {
+  background-color: color-mix(in srgb, #08080a 92%, transparent);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
 }
 
 /* Lightbox open: a soft zoom from the clicked thumbnail's scale. */

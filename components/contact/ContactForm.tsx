@@ -1,8 +1,9 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 
+import { submitInquiry, type ContactState } from "@/app/contact/actions";
 import { brand, services } from "@/config/business";
 import type { PhotoCategory } from "@/types";
 
@@ -49,14 +50,26 @@ export function ContactForm() {
   const [direction, setDirection] = useState(1);
   const [data, setData] = useState<FormData>(EMPTY);
   const [error, setError] = useState<string | null>(null);
-  const [submitted, setSubmitted] = useState(false);
+  const [formState, formAction, isPending] = useActionState<ContactState, globalThis.FormData>(
+    submitInquiry,
+    { status: "idle" },
+  );
   const reduce = useReducedMotion();
   const headingRef = useRef<HTMLParagraphElement>(null);
-  const utmSource = useRef<string | null>(null);
+  const attribution = useRef<Record<string, string>>({});
 
-  // Capture UTM source for attribution (submitted with the inquiry in Phase 2).
+  // Capture attribution + technical context once, on mount, to submit with the
+  // inquiry (mirrors the contact_queries analytics columns).
   useEffect(() => {
-    utmSource.current = new URLSearchParams(window.location.search).get("utm_source");
+    const params = new URLSearchParams(window.location.search);
+    attribution.current = {
+      utm_source: params.get("utm_source") ?? "",
+      utm_medium: params.get("utm_medium") ?? "",
+      utm_campaign: params.get("utm_campaign") ?? "",
+      referrer: document.referrer,
+      landing_page: window.location.pathname + window.location.search,
+      user_agent: navigator.userAgent,
+    };
   }, []);
 
   // Move focus to the step label whenever the step changes (skip first paint).
@@ -112,8 +125,18 @@ export function ContactForm() {
       setError(message);
       return;
     }
-    // TODO(Phase 2): insert into Supabase `contact_queries` with utmSource.current.
-    setSubmitted(true);
+    // Hand the full inquiry to the server action (insert + email notification).
+    const payload = new FormData();
+    payload.set("name", data.name);
+    payload.set("email", data.email);
+    payload.set("phone", data.phone);
+    payload.set("category", data.category);
+    payload.set("description", data.description);
+    payload.set("preferredDate", data.preferredDate);
+    for (const [key, value] of Object.entries(attribution.current)) {
+      payload.set(key, value);
+    }
+    formAction(payload);
   };
 
   const offset = reduce ? 0 : 40;
@@ -123,7 +146,7 @@ export function ContactForm() {
     exit: (dir: number) => ({ x: dir > 0 ? -offset : offset, opacity: 0 }),
   };
 
-  if (submitted) {
+  if (formState.status === "success") {
     return (
       <div className="max-w-xl" role="status" aria-live="polite">
         <p className="font-mono text-xs uppercase tracking-[0.3em] text-accent">
@@ -229,7 +252,7 @@ export function ContactForm() {
                     type="date"
                     value={data.preferredDate}
                     onChange={(event) => update("preferredDate", event.target.value)}
-                    className="mt-3 w-full border border-border bg-surface px-4 py-3 text-foreground focus-visible:border-accent [color-scheme:dark]"
+                    className="mt-3 w-full border border-border bg-surface px-4 py-3 text-foreground focus-visible:border-accent"
                   />
                 </div>
               </div>
@@ -282,9 +305,9 @@ export function ContactForm() {
         </AnimatePresence>
       </div>
 
-      {error ? (
+      {error || formState.status === "error" ? (
         <p className="mt-4 text-sm text-accent" role="alert">
-          {error}
+          {error ?? formState.message}
         </p>
       ) : null}
 
@@ -292,17 +315,18 @@ export function ContactForm() {
         <button
           type="button"
           onClick={goBack}
-          disabled={step === 0}
-          className="text-xs font-medium uppercase tracking-[0.2em] text-muted transition-colors hover:text-foreground disabled:pointer-events-none disabled:opacity-0"
+          disabled={step === 0 || isPending}
+          className="cursor-pointer text-xs font-medium uppercase tracking-[0.2em] text-muted transition-colors hover:text-foreground disabled:pointer-events-none disabled:opacity-0"
         >
           Back
         </button>
 
         <button
           type="submit"
-          className="border border-foreground/20 px-7 py-3 text-xs font-medium uppercase tracking-[0.2em] transition-colors duration-300 ease-cinematic hover:bg-foreground hover:text-background"
+          disabled={isPending}
+          className="cursor-pointer border border-foreground/20 px-7 py-3 text-xs font-medium uppercase tracking-[0.2em] transition-colors duration-300 ease-cinematic hover:bg-foreground hover:text-background disabled:pointer-events-none disabled:opacity-60"
         >
-          {step < STEPS.length - 1 ? "Continue" : "Send inquiry"}
+          {step < STEPS.length - 1 ? "Continue" : isPending ? "Sending..." : "Send inquiry"}
         </button>
       </div>
     </form>

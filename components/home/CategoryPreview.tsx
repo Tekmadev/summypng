@@ -34,7 +34,7 @@ export function CategoryPreview() {
                 alt={cover.alt}
                 fill
                 sizes="(min-width: 640px) 50vw, 100vw"
-                className="object-cover opacity-75 transition-all duration-700 ease-cinematic group-hover:scale-[1.04] group-hover:opacity-100"
+                className="object-cover opacity-90 transition-all duration-700 ease-cinematic group-hover:scale-[1.04] group-hover:opacity-100 dark:opacity-75"
               />
               <div className="absolute inset-0 flex items-end bg-gradient-to-t from-background/85 via-background/20 to-transparent p-6 sm:p-8">
                 <div>

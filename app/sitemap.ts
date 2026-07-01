@@ -11,10 +11,11 @@ function changeFrequencyFor(
   return "yearly"; // about / contact
 }
 
-/** Relative importance, 0-1. Home leads, galleries next, info pages last. */
+/** Relative importance, 0-1. Home leads, galleries next, legal pages last. */
 function priorityFor(route: SiteRoute): number {
   if (route === "/") return 1.0;
   if (route.startsWith("/gallery/")) return 0.8;
+  if (route === "/privacy" || route === "/terms") return 0.3;
   return 0.6;
 }
 

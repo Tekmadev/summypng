@@ -1,9 +1,11 @@
 import Link from "next/link";
 
+import { SocialIcon, hasSocialIcon } from "@/components/site/icons";
 import {
   brand,
   contact,
   identity,
+  legalNav,
   location,
   pricing,
   services,
@@ -61,20 +63,34 @@ export function SiteFooter() {
           </nav>
         </div>
 
-        <div className="mt-16 flex flex-col gap-3 border-t border-border pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-16 flex flex-col gap-4 border-t border-border pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {year} {identity.businessName}. All rights reserved.
           </p>
-          <div className="flex gap-5">
+          <div className="flex items-center gap-5">
+            {legalNav.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="transition-colors hover:text-foreground"
+              >
+                {link.label}
+              </Link>
+            ))}
+            <span aria-hidden className="hidden h-3 w-px bg-border sm:inline-block" />
             {socials.map((profile) => (
               <a
                 key={profile.platform}
                 href={profile.url}
                 target="_blank"
                 rel="noreferrer"
-                className="transition-colors hover:text-foreground"
+                aria-label={profile.platform}
+                className="inline-flex items-center gap-2 transition-colors hover:text-foreground"
               >
-                {profile.platform}
+                <SocialIcon platform={profile.platform} size={18} />
+                <span className={hasSocialIcon(profile.platform) ? "sr-only" : undefined}>
+                  {profile.platform}
+                </span>
               </a>
             ))}
           </div>

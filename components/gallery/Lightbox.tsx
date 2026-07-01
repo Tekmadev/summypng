@@ -90,7 +90,7 @@ export function Lightbox({ photos, index, onClose, onNavigate }: LightboxProps) 
       role="dialog"
       aria-modal="true"
       aria-label={`Image ${index + 1} of ${photos.length}`}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-xl"
+      className="lightbox-scrim fixed inset-0 z-50 flex items-center justify-center"
       onClick={onClose}
       onTouchStart={(event) => {
         touchStartX.current = event.touches[0]?.clientX ?? null;
@@ -108,7 +108,7 @@ export function Lightbox({ photos, index, onClose, onNavigate }: LightboxProps) 
         type="button"
         onClick={onClose}
         aria-label="Close"
-        className="absolute right-4 top-4 z-10 text-xs font-medium uppercase tracking-[0.2em] text-foreground/80 transition-colors hover:text-foreground sm:right-8 sm:top-8"
+        className="absolute right-4 top-4 z-10 cursor-pointer text-xs font-medium uppercase tracking-[0.2em] text-white/80 transition-colors hover:text-white sm:right-8 sm:top-8"
       >
         Close
       </button>
@@ -120,7 +120,7 @@ export function Lightbox({ photos, index, onClose, onNavigate }: LightboxProps) 
           goPrev();
         }}
         aria-label="Previous image"
-        className="absolute left-3 z-10 px-3 py-6 text-foreground/60 transition-colors hover:text-foreground sm:left-6"
+        className="absolute left-3 z-10 cursor-pointer px-3 py-6 text-white/60 transition-colors hover:text-white sm:left-6"
       >
         <span className="text-2xl">‹</span>
       </button>
@@ -139,7 +139,7 @@ export function Lightbox({ photos, index, onClose, onNavigate }: LightboxProps) 
           priority
           className="h-auto max-h-[82vh] w-auto max-w-[92vw] object-contain"
         />
-        <figcaption className="mt-4 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-muted">
+        <figcaption className="mt-4 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-white/55">
           {index + 1} / {photos.length}
         </figcaption>
       </figure>
@@ -151,7 +151,7 @@ export function Lightbox({ photos, index, onClose, onNavigate }: LightboxProps) 
           goNext();
         }}
         aria-label="Next image"
-        className="absolute right-3 z-10 px-3 py-6 text-foreground/60 transition-colors hover:text-foreground sm:right-6"
+        className="absolute right-3 z-10 cursor-pointer px-3 py-6 text-white/60 transition-colors hover:text-white sm:right-6"
       >
         <span className="text-2xl">›</span>
       </button>

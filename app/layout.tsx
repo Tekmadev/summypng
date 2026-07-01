@@ -6,6 +6,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { GrainOverlay } from "@/components/site/GrainOverlay";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
+import { ThemeScript } from "@/components/theme/ThemeScript";
 import {
   SITE_URL,
   absoluteUrl,
@@ -81,10 +82,15 @@ export const metadata: Metadata = {
   formatDetection: { telephone: false, email: false, address: false },
 };
 
-/** Dark, cinematic brand - declare the colour scheme so the UA chrome matches. */
+/**
+ * The site ships both skins (light default, dark optional) via a `.dark` class,
+ * independent of the OS preference. The theme-color meta is seeded to the light
+ * default here and then kept in sync with the actual theme by ThemeScript (first
+ * paint) and ThemeToggle (on flip), so it is NOT keyed on prefers-color-scheme.
+ */
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
-  colorScheme: "dark",
+  themeColor: "#f7f5f0",
+  colorScheme: "light dark",
 };
 
 export default function RootLayout({
@@ -95,9 +101,11 @@ export default function RootLayout({
   return (
     <html
       lang={locale.primary}
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <ThemeScript />
         <JsonLd data={buildSiteGraph()} />
         <GrainOverlay />
         <SiteHeader />
